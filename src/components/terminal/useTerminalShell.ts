@@ -547,8 +547,8 @@ export function useTerminalShell() {
   return {
     cwd, input, setInput, entries, history, historyIndex, activePreview,
     setActivePreview, editorPath, setEditorPath, editorValue, setEditorValue,
-    message, booted, bootLines, inputRef, outputRef, execute, saveEditor,
-    handleKeyDown,
+    message, booted, bootLines, showDashboard, setShowDashboard,
+    inputRef, outputRef, execute, saveEditor, handleKeyDown,
   };
 }
 
