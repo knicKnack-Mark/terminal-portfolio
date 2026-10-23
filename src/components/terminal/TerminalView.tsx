@@ -5,6 +5,7 @@ import type { TerminalShellState } from "./useTerminalShell";
 import Dashboard from "./Dashboard";
 import ProjectCaseStudy from "./ProjectCaseStudy";
 import ProjectDemo from "./ProjectDemo";
+import SkillsMatrix from "./SkillsMatrix";
 
 export default function TerminalView({ shell }: { shell: TerminalShellState }) {
   const {
@@ -12,6 +13,7 @@ export default function TerminalView({ shell }: { shell: TerminalShellState }) {
     editorPath, setEditorPath, editorValue, setEditorValue, message,
     booted, bootLines, showDashboard, setShowDashboard,
     activeCaseStudy, setActiveCaseStudy,
+    showSkillsMatrix, setShowSkillsMatrix, skillsCategory,
     inputRef, outputRef, execute, saveEditor, handleKeyDown,
   } = shell;
 
@@ -105,6 +107,14 @@ export default function TerminalView({ shell }: { shell: TerminalShellState }) {
                 setActiveCaseStudy("");
                 execute(command);
               }}
+            />
+          )}
+
+          {showSkillsMatrix && (
+            <SkillsMatrix
+              key={skillsCategory}
+              initialCategory={skillsCategory}
+              onClose={() => setShowSkillsMatrix(false)}
             />
           )}
 
