@@ -36,6 +36,11 @@ PORTFOLIO
   projects             List featured projects
   projects --featured  List highlighted work
   open <project>       Open a detailed project case study
+  skills               Open the technology matrix
+  skills frontend      Filter frontend technologies
+  skills backend       Filter backend technologies
+  skills database      Filter database technologies
+  skills devops        Filter infrastructure technologies
   open github          Open current project's repository
   open live            Open current project's live demo
   resume               Open resume, if configured
@@ -52,7 +57,7 @@ export const COMMANDS = [
   "find", "tree", "file", "stat", "whoami", "hostname",
   "uname", "neofetch", "date", "echo", "history", "clear", "help",
   "exit", "resume", "contact", "dashboard", "terminal", "open",
-  "projects", "recruiter",
+  "projects", "recruiter", "skills",
 ];
 
 export type ProjectDetails = {
