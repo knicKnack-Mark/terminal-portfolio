@@ -1,5 +1,6 @@
 "use client";
 
+import { formatPath } from "./filesystem";
 import type { TerminalShellState } from "./useTerminalShell";
 import ProjectDemo from "./ProjectDemo";
 
@@ -44,10 +45,10 @@ export default function TerminalView({ shell }: { shell: TerminalShellState }) {
           {!booted && (
             <div className="terminal-welcome" role="status" aria-live="polite">
               <p className="terminal-muted">NEIL_OS — SYSTEM STARTUP</p>
-              <pre className="terminal-result">
-                {bootLines.join("\n")}
-                {bootLines.length < 5 ? "\n▌" : ""}
-              </pre>
+                <pre className="terminal-result">
+                  {bootLines.join("\n")}
+                  {bootLines.length < 5 && "\n▌"}
+                </pre>
             </div>
           )}
 
