@@ -6,6 +6,11 @@ import {
   HOME, directory, file, filesystem, getNode, listDirectory, normalizePath,
   readFile, tree,
 } from "./filesystem";
+import {
+  isProjectSlug,
+  PROJECT_CASE_STUDIES,
+  type ProjectSlug,
+} from "./projectData";
 import type { FsNode, HistoryEntry } from "./types";
 
 export function useTerminalShell() {
@@ -21,6 +26,8 @@ export function useTerminalShell() {
   const [booted, setBooted] = useState(false);
   const [bootLines, setBootLines] = useState<string[]>([]);
   const [showDashboard, setShowDashboard] = useState(false);
+  const [activeCaseStudy, setActiveCaseStudy] =
+    useState<ProjectSlug | "">("");
   const inputRef = useRef<HTMLInputElement>(null);
   const outputRef = useRef<HTMLDivElement>(null);
   const nextId = useRef(1);
@@ -95,19 +102,34 @@ export function useTerminalShell() {
         setEntries([]);
         setActivePreview("");
         setShowDashboard(false);
+        setActiveCaseStudy("");
         return;
       }
 
       const run = (output: string) => append(commandLine, output);
 
+      const projectSlug = params[0]?.toLowerCase();
+      if (command === "open" && isProjectSlug(projectSlug)) {
+        setActiveCaseStudy(projectSlug);
+        setShowDashboard(false);
+        setActivePreview("");
+        append(
+          commandLine,
+          `Opening project case study: ${PROJECT_CASE_STUDIES[projectSlug].name}`,
+        );
+        return;
+      }
+
       switch (command) {
         case "dashboard":
           setShowDashboard(true);
+          setActiveCaseStudy("");
           run("Command Center opened. Type 'terminal' to return.");
           break;
 
         case "terminal":
           setShowDashboard(false);
+          setActiveCaseStudy("");
           run("Returned to terminal.");
           break;
         case "help":
@@ -540,6 +562,7 @@ export function useTerminalShell() {
       event.preventDefault();
       setEntries([]);
       setActivePreview("");
+      setActiveCaseStudy("");
     }
   };
 
@@ -548,6 +571,7 @@ export function useTerminalShell() {
     cwd, input, setInput, entries, history, historyIndex, activePreview,
     setActivePreview, editorPath, setEditorPath, editorValue, setEditorValue,
     message, booted, bootLines, showDashboard, setShowDashboard,
+    activeCaseStudy, setActiveCaseStudy,
     inputRef, outputRef, execute, saveEditor, handleKeyDown,
   };
 }

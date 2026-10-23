@@ -3,6 +3,7 @@
 import { formatPath } from "./filesystem";
 import type { TerminalShellState } from "./useTerminalShell";
 import Dashboard from "./Dashboard";
+import ProjectCaseStudy from "./ProjectCaseStudy";
 import ProjectDemo from "./ProjectDemo";
 
 export default function TerminalView({ shell }: { shell: TerminalShellState }) {
@@ -10,6 +11,7 @@ export default function TerminalView({ shell }: { shell: TerminalShellState }) {
     cwd, input, setInput, entries, activePreview, setActivePreview,
     editorPath, setEditorPath, editorValue, setEditorValue, message,
     booted, bootLines, showDashboard, setShowDashboard,
+    activeCaseStudy, setActiveCaseStudy,
     inputRef, outputRef, execute, saveEditor, handleKeyDown,
   } = shell;
 
@@ -87,6 +89,20 @@ export default function TerminalView({ shell }: { shell: TerminalShellState }) {
             <Dashboard
               onRunCommand={(command) => {
                 setShowDashboard(false);
+                execute(command);
+              }}
+            />
+          )}
+
+          {activeCaseStudy && (
+            <ProjectCaseStudy
+              slug={activeCaseStudy}
+              onBack={() => {
+                setActiveCaseStudy("");
+                setShowDashboard(true);
+              }}
+              onRunCommand={(command) => {
+                setActiveCaseStudy("");
                 execute(command);
               }}
             />
