@@ -11,6 +11,10 @@ import {
   PROJECT_CASE_STUDIES,
   type ProjectSlug,
 } from "./projectData";
+import {
+  normalizeSkillCategory,
+  type SkillCategory,
+} from "./skillsData";
 import type { FsNode, HistoryEntry } from "./types";
 
 export function useTerminalShell() {
@@ -28,6 +32,9 @@ export function useTerminalShell() {
   const [showDashboard, setShowDashboard] = useState(false);
   const [activeCaseStudy, setActiveCaseStudy] =
     useState<ProjectSlug | "">("");
+  const [showSkillsMatrix, setShowSkillsMatrix] = useState(false);
+  const [skillsCategory, setSkillsCategory] =
+    useState<SkillCategory>("all");
   const inputRef = useRef<HTMLInputElement>(null);
   const outputRef = useRef<HTMLDivElement>(null);
   const nextId = useRef(1);
@@ -103,6 +110,7 @@ export function useTerminalShell() {
         setActivePreview("");
         setShowDashboard(false);
         setActiveCaseStudy("");
+        setShowSkillsMatrix(false);
         return;
       }
 
@@ -112,6 +120,7 @@ export function useTerminalShell() {
       if (command === "open" && isProjectSlug(projectSlug)) {
         setActiveCaseStudy(projectSlug);
         setShowDashboard(false);
+        setShowSkillsMatrix(false);
         setActivePreview("");
         append(
           commandLine,
@@ -124,14 +133,51 @@ export function useTerminalShell() {
         case "dashboard":
           setShowDashboard(true);
           setActiveCaseStudy("");
+          setShowSkillsMatrix(false);
           run("Command Center opened. Type 'terminal' to return.");
           break;
 
         case "terminal":
           setShowDashboard(false);
           setActiveCaseStudy("");
+          setShowSkillsMatrix(false);
           run("Returned to terminal.");
           break;
+        case "skills": {
+          const requestedCategory = params[0]?.toLowerCase();
+          const validCategories = [
+            "frontend",
+            "backend",
+            "database",
+            "devops",
+          ];
+
+          if (
+            requestedCategory &&
+            !validCategories.includes(requestedCategory)
+          ) {
+            run(
+              "Usage: skills [frontend|backend|database|devops]\n" +
+              "Example: skills frontend",
+            );
+            break;
+          }
+
+          setSkillsCategory(
+            normalizeSkillCategory(requestedCategory),
+          );
+          setShowSkillsMatrix(true);
+          setShowDashboard(false);
+          setActiveCaseStudy("");
+          setActivePreview("");
+
+          run(
+            requestedCategory
+              ? `Opening ${requestedCategory.toUpperCase()} skills module...`
+              : "Opening complete technology matrix...",
+          );
+          break;
+        }
         case "help":
         case "man":
           run(command === "man"
@@ -563,6 +609,7 @@ export function useTerminalShell() {
       setEntries([]);
       setActivePreview("");
       setActiveCaseStudy("");
+      setShowSkillsMatrix(false);
     }
   };
 
@@ -572,6 +619,8 @@ export function useTerminalShell() {
     setActivePreview, editorPath, setEditorPath, editorValue, setEditorValue,
     message, booted, bootLines, showDashboard, setShowDashboard,
     activeCaseStudy, setActiveCaseStudy,
+    showSkillsMatrix, setShowSkillsMatrix,
+    skillsCategory, setSkillsCategory,
     inputRef, outputRef, execute, saveEditor, handleKeyDown,
   };
 }
