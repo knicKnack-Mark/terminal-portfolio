@@ -1,36 +1,47 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Terminal Portfolio — Modular Refactor + Recruiter Mode
 
-## Getting Started
+This bundle refactors the existing terminal portfolio into smaller files while preserving the existing CSS class names and shell features.
 
-First, run the development server:
+## Files
+
+- `src/components/TerminalPortfolio.tsx` — small entry component
+- `src/components/terminal/TerminalView.tsx` — terminal UI
+- `src/components/terminal/useTerminalShell.ts` — state, keyboard controls, and command execution
+- `src/components/terminal/filesystem.ts` — virtual filesystem and filesystem helpers
+- `src/components/terminal/types.ts` — shared TypeScript types
+- `src/components/terminal/config.ts` — help text, command suggestions, and project metadata
+- `src/components/terminal/ProjectDemo.tsx` — project showcase panel
+
+## Install
+
+1. Back up your existing `src/components/TerminalPortfolio.tsx`.
+2. Extract this ZIP into the root of your Next.js project (the folder containing `package.json`).
+3. Allow it to overwrite `src/components/TerminalPortfolio.tsx`.
+4. Keep your existing `globals.css`; the existing CSS classes are retained.
+5. The running Next.js dev server should recompile automatically. If it does not, stop it with Ctrl+C and run `npm run dev`.
+
+## Recruiter mode
+
+Run either command in the terminal:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+recruiter
+./recruiter.sh
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+The report summarizes profile, experience, skills, projects, and suggested next commands. It uses the existing known profile details and reminds you to replace placeholder contact/education/project metadata before publishing.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Existing features retained
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- Boot sequence and welcome screen
+- `pwd`, `ls`, `ls -l`, `ls -a`, `ls -la`, `ll`, `cd`, `tree`, `find`
+- `cat`, simulated `nano`, `grep`, `file`, `stat`
+- `whoami`, `hostname`, `uname`, `neofetch`, `date`, `echo`
+- `history`, `help`, `man`, `clear`, `cls`, `exit`, `sudo`
+- Project listing and project launcher (`projects`, `open <project>`, `open github`, `open live`)
+- Project showcase cards and configured-link buttons
+- Contact and resume commands
+- Up/down command history, Tab autocomplete, Ctrl+L
+- Read-only guard for mutating/system commands
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+This is a browser-based simulated shell, not a real Linux shell. Project URLs remain blank until you add real URLs in `config.ts`.
