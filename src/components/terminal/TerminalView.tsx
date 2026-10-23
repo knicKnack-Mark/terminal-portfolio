@@ -2,13 +2,15 @@
 
 import { formatPath } from "./filesystem";
 import type { TerminalShellState } from "./useTerminalShell";
+import Dashboard from "./Dashboard";
 import ProjectDemo from "./ProjectDemo";
 
 export default function TerminalView({ shell }: { shell: TerminalShellState }) {
   const {
     cwd, input, setInput, entries, activePreview, setActivePreview,
     editorPath, setEditorPath, editorValue, setEditorValue, message,
-    booted, bootLines, inputRef, outputRef, execute, saveEditor, handleKeyDown,
+    booted, bootLines, showDashboard, setShowDashboard,
+    inputRef, outputRef, execute, saveEditor, handleKeyDown,
   } = shell;
 
   return (
@@ -80,6 +82,15 @@ export default function TerminalView({ shell }: { shell: TerminalShellState }) {
               )}
             </div>
           ))}
+
+          {showDashboard && (
+            <Dashboard
+              onRunCommand={(command) => {
+                setShowDashboard(false);
+                execute(command);
+              }}
+            />
+          )}
 
           {activePreview && (
             <div className="terminal-preview">
