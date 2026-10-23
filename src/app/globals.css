@@ -1996,3 +1996,427 @@ button {
     transition: none;
   }
 }
+
+/* =========================================
+   INTERACTIVE SKILLS MATRIX
+   ========================================= */
+
+.skills-matrix {
+  --skills-cyan: #00f2fe;
+  position: relative;
+  width: 100%;
+  margin: 24px 0;
+  padding: clamp(18px, 3vw, 32px);
+  overflow: hidden;
+  color: #e6f1f5;
+  background:
+    radial-gradient(
+      ellipse at 90% 0%,
+      rgba(0, 242, 254, 0.08),
+      transparent 38%
+    ),
+    rgba(5, 12, 20, 0.96);
+  border: 1px solid rgba(0, 242, 254, 0.25);
+  border-radius: 12px;
+  font-family: inherit;
+}
+
+.skills-matrix::before {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  content: "";
+  background-image:
+    linear-gradient(rgba(0, 242, 254, 0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 242, 254, 0.025) 1px, transparent 1px);
+  background-size: 28px 28px;
+  mask-image: linear-gradient(to bottom, black, transparent 90%);
+}
+
+.skills-matrix > * {
+  position: relative;
+  z-index: 1;
+}
+
+.skills-matrix__header,
+.skills-matrix__detail-heading,
+.skills-matrix__section-heading,
+.skills-matrix__footer {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.skills-matrix__eyebrow,
+.skills-matrix__index {
+  margin: 0;
+  color: var(--skills-cyan);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+}
+
+.skills-matrix__eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+.skills-matrix__status {
+  width: 7px;
+  height: 7px;
+  flex: 0 0 7px;
+  background: var(--skills-cyan);
+  border-radius: 50%;
+  box-shadow: 0 0 12px rgba(0, 242, 254, 0.8);
+  animation: skills-pulse 1.8s ease-in-out infinite;
+}
+
+.skills-matrix__header h2 {
+  margin: 14px 0 8px;
+  font-size: clamp(22px, 4vw, 34px);
+  font-weight: 800;
+  letter-spacing: -0.045em;
+}
+
+.skills-matrix__subtitle {
+  max-width: 520px;
+  margin: 0;
+  color: #8498a6;
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.skills-matrix__close {
+  padding: 9px 11px;
+  color: #8ba2ad;
+  background: rgba(255, 255, 255, 0.025);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 5px;
+  font: inherit;
+  font-size: 10px;
+  cursor: pointer;
+  transition:
+    color 180ms ease,
+    border-color 180ms ease,
+    background 180ms ease;
+}
+
+.skills-matrix__close:hover {
+  color: var(--skills-cyan);
+  background: rgba(0, 242, 254, 0.06);
+  border-color: rgba(0, 242, 254, 0.45);
+}
+
+.skills-matrix__stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  margin: 26px 0;
+}
+
+.skills-matrix__stat {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 0;
+  padding: 15px;
+  background: rgba(255, 255, 255, 0.025);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 7px;
+}
+
+.skills-matrix__stat > span {
+  color: #718693;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+}
+
+.skills-matrix__stat strong {
+  overflow-wrap: anywhere;
+  color: #e7f6f9;
+  font-size: clamp(15px, 2.5vw, 22px);
+}
+
+.skills-matrix__stat .skills-matrix__online {
+  color: var(--skills-cyan);
+  font-size: clamp(10px, 1.8vw, 13px);
+}
+
+.skills-matrix__filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.09);
+}
+
+.skills-matrix__filter {
+  padding: 10px 12px;
+  color: #8296a3;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 5px;
+  font: inherit;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  transition: all 180ms ease;
+}
+
+.skills-matrix__filter:hover,
+.skills-matrix__filter.is-active {
+  color: var(--skills-cyan);
+  background: rgba(0, 242, 254, 0.07);
+  border-color: rgba(0, 242, 254, 0.45);
+}
+
+.skills-matrix__section-heading {
+  align-items: center;
+  margin: 24px 0 16px;
+}
+
+.skills-matrix__section-heading > div {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.skills-matrix__section-heading h3 {
+  margin: 0;
+  color: #d9e9ef;
+  font-size: 13px;
+  letter-spacing: 0.04em;
+}
+
+.skills-matrix__section-heading > p {
+  max-width: 300px;
+  margin: 0;
+  color: #718693;
+  font-size: 11px;
+  line-height: 1.6;
+  text-align: right;
+}
+
+.skills-matrix__grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.skills-matrix__card {
+  display: flex;
+  min-height: 145px;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 15px;
+  color: #d9e9ef;
+  text-align: left;
+  background: rgba(10, 21, 31, 0.88);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 7px;
+  cursor: pointer;
+  transition:
+    transform 180ms ease,
+    background 180ms ease,
+    border-color 180ms ease;
+}
+
+.skills-matrix__card:hover {
+  transform: translateY(-3px);
+  background: rgba(0, 242, 254, 0.045);
+  border-color: rgba(0, 242, 254, 0.35);
+}
+
+.skills-matrix__card.is-selected {
+  background: rgba(0, 242, 254, 0.07);
+  border-color: var(--skills-cyan);
+  box-shadow: inset 0 0 20px rgba(0, 242, 254, 0.025);
+}
+
+.skills-matrix__card-top {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  color: #647c89;
+  font-size: 10px;
+}
+
+.skills-matrix__card-indicator {
+  color: var(--skills-cyan);
+  font-size: 18px;
+  line-height: 1;
+}
+
+.skills-matrix__card > strong {
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.skills-matrix__card-category {
+  margin-top: 8px;
+  color: #8296a3;
+  font-size: 9px;
+  letter-spacing: 0.07em;
+}
+
+.skills-matrix__card-hint {
+  margin-top: auto;
+  padding-top: 15px;
+  color: var(--skills-cyan);
+  font-size: 9px;
+  letter-spacing: 0.06em;
+}
+
+.skills-matrix__detail {
+  margin-top: 16px;
+  padding: 20px;
+  background: rgba(0, 242, 254, 0.035);
+  border: 1px solid rgba(0, 242, 254, 0.22);
+  border-radius: 7px;
+  animation: skills-reveal 220ms ease both;
+}
+
+.skills-matrix__detail-heading {
+  align-items: center;
+}
+
+.skills-matrix__detail h3 {
+  margin: 8px 0 0;
+  color: #f0fbff;
+  font-size: 20px;
+}
+
+.skills-matrix__detail-status {
+  color: var(--skills-cyan);
+  font-size: 9px;
+  letter-spacing: 0.08em;
+}
+
+.skills-matrix__detail > p {
+  margin: 15px 0;
+  color: #9aadb8;
+  font-size: 13px;
+  line-height: 1.8;
+}
+
+.skills-matrix__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+.skills-matrix__tags span {
+  padding: 7px 9px;
+  color: #a8eaf0;
+  background: rgba(0, 242, 254, 0.06);
+  border: 1px solid rgba(0, 242, 254, 0.16);
+  border-radius: 4px;
+  font-size: 10px;
+}
+
+.skills-matrix__footer {
+  align-items: center;
+  margin-top: 24px;
+  padding-top: 14px;
+  color: #647c89;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  font-size: 9px;
+  letter-spacing: 0.08em;
+}
+
+.skills-matrix button:focus-visible {
+  outline: 2px solid var(--skills-cyan);
+  outline-offset: 3px;
+}
+
+@keyframes skills-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.35;
+  }
+}
+
+@keyframes skills-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(5px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 700px) {
+  .skills-matrix__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .skills-matrix__section-heading {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .skills-matrix__section-heading > p {
+    text-align: left;
+  }
+}
+
+@media (max-width: 460px) {
+  .skills-matrix__header {
+    flex-direction: column;
+  }
+
+  .skills-matrix__stats {
+    gap: 6px;
+  }
+
+  .skills-matrix__stat {
+    padding: 10px;
+  }
+
+  .skills-matrix__filters {
+    gap: 6px;
+  }
+
+  .skills-matrix__filter {
+    padding: 8px 9px;
+    font-size: 9px;
+  }
+
+  .skills-matrix__grid {
+    gap: 7px;
+  }
+
+  .skills-matrix__card {
+    min-height: 135px;
+    padding: 11px;
+  }
+
+  .skills-matrix__detail-heading {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skills-matrix *,
+  .skills-matrix *::before,
+  .skills-matrix *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
