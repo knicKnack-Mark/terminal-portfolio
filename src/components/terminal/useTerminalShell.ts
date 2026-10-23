@@ -20,7 +20,7 @@ export function useTerminalShell() {
   const [message, setMessage] = useState("");
   const [booted, setBooted] = useState(false);
   const [bootLines, setBootLines] = useState<string[]>([]);
-
+  const [showDashboard, setShowDashboard] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const outputRef = useRef<HTMLDivElement>(null);
   const nextId = useRef(1);
@@ -94,12 +94,22 @@ export function useTerminalShell() {
       if (command === "clear" || command === "cls") {
         setEntries([]);
         setActivePreview("");
+        setShowDashboard(false);
         return;
       }
 
       const run = (output: string) => append(commandLine, output);
 
       switch (command) {
+        case "dashboard":
+          setShowDashboard(true);
+          run("Command Center opened. Type 'terminal' to return.");
+          break;
+
+        case "terminal":
+          setShowDashboard(false);
+          run("Returned to terminal.");
+          break;
         case "help":
         case "man":
           run(command === "man"
