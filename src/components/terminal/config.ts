@@ -35,7 +35,7 @@ SHELL
 PORTFOLIO
   projects             List featured projects
   projects --featured  List highlighted work
-  open <project>       Open a project showcase card
+  open <project>       Open a detailed project case study
   open github          Open current project's repository
   open live            Open current project's live demo
   resume               Open resume, if configured
@@ -51,7 +51,8 @@ export const COMMANDS = [
   "pwd", "ls", "ll", "cd", "cat", "nano", "grep",
   "find", "tree", "file", "stat", "whoami", "hostname",
   "uname", "neofetch", "date", "echo", "history", "clear", "help",
-  "exit", "resume", "contact", "open", "projects", "recruiter",
+  "exit", "resume", "contact", "dashboard", "terminal", "open",
+  "projects", "recruiter",
 ];
 
 export type ProjectDetails = {
@@ -103,4 +104,3 @@ export const PROJECT_DETAILS: Record<string, ProjectDetails> = {
     liveUrl: "",
   },
 };
-
