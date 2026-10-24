@@ -2420,3 +2420,698 @@ button {
     transition-duration: 0.01ms !important;
   }
 }
+
+
+/* =========================================================
+   INTERACTIVE SYSTEM ARCHITECTURE EXPLORER
+   ========================================================= */
+
+.architecture-explorer {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  overflow-y: auto;
+  --arch-cyan: #57f6e9;
+  --arch-blue: #65a9ff;
+  --arch-muted: #81909e;
+  --arch-border: rgba(137, 174, 190, 0.19);
+  --arch-surface: rgba(12, 22, 31, 0.88);
+  width: 100%;
+  min-height: 100%;
+  padding: clamp(16px, 3vw, 34px);
+  color: #e6f0f5;
+  background:
+    radial-gradient(ellipse at 8% 0%, rgba(29, 123, 137, 0.11), transparent 38%),
+    linear-gradient(rgba(8, 15, 22, 0.97), rgba(6, 12, 18, 0.99));
+  font-family: inherit;
+  animation: arch-enter 380ms ease both;
+}
+
+@keyframes arch-enter {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.architecture-explorer *,
+.architecture-explorer *::before,
+.architecture-explorer *::after {
+  box-sizing: border-box;
+}
+
+.architecture-explorer button {
+  color: inherit;
+  font: inherit;
+}
+
+.architecture-explorer button:focus-visible {
+  outline: 2px solid var(--arch-cyan);
+  outline-offset: 4px;
+}
+
+.architecture-explorer__header {
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--arch-border);
+}
+
+.architecture-explorer__eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  color: var(--arch-cyan);
+  font-family: var(--font-ibm-plex-mono, monospace);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.13em;
+  line-height: 1.7;
+}
+
+.architecture-explorer__pulse,
+.architecture-explorer__flow-indicator {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  flex: 0 0 7px;
+  border-radius: 50%;
+  background: var(--arch-cyan);
+  box-shadow: 0 0 12px rgba(87, 246, 233, 0.65);
+  animation: arch-pulse 1.8s ease-in-out infinite;
+}
+
+@keyframes arch-pulse {
+  50% {
+    opacity: 0.4;
+    box-shadow: 0 0 3px rgba(87, 246, 233, 0.25);
+  }
+}
+
+.architecture-explorer__heading-row {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 20px;
+  margin-top: 16px;
+}
+
+.architecture-explorer__heading-row h1 {
+  margin: 0;
+  color: #f3f9fc;
+  font-family: var(--font-space-grotesk, sans-serif);
+  font-size: clamp(27px, 4vw, 43px);
+  font-weight: 600;
+  letter-spacing: -0.045em;
+}
+
+.architecture-explorer__heading-row p,
+.architecture-explorer__project-intro p {
+  max-width: 640px;
+  margin: 9px 0 0;
+  color: var(--arch-muted);
+  font-size: 13px;
+  line-height: 1.8;
+}
+
+.architecture-explorer__close,
+.architecture-explorer__run {
+  display: inline-flex;
+  min-height: 39px;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  padding: 0 14px;
+  border: 1px solid rgba(87, 246, 233, 0.35);
+  border-radius: 3px;
+  background: rgba(87, 246, 233, 0.05);
+  color: var(--arch-cyan) !important;
+  cursor: pointer;
+  font-family: var(--font-ibm-plex-mono, monospace) !important;
+  font-size: 10px !important;
+  letter-spacing: 0.07em;
+  transition:
+    background 180ms ease,
+    border-color 180ms ease,
+    transform 180ms ease;
+}
+
+.architecture-explorer__close:hover,
+.architecture-explorer__run:hover:not(:disabled) {
+  transform: translateY(-1px);
+  border-color: var(--arch-cyan);
+  background: rgba(87, 246, 233, 0.12);
+}
+
+.architecture-explorer__projects {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+  margin: 22px 0 27px;
+}
+
+.architecture-explorer__project {
+  display: flex;
+  min-width: 0;
+  min-height: 62px;
+  align-items: center;
+  gap: 10px;
+  padding: 12px;
+  border: 1px solid var(--arch-border);
+  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.015);
+  color: #bdcbd4 !important;
+  cursor: pointer;
+  text-align: left;
+  transition: 180ms ease;
+}
+
+.architecture-explorer__project:hover,
+.architecture-explorer__project.is-active {
+  border-color: rgba(87, 246, 233, 0.48);
+  background: rgba(87, 246, 233, 0.055);
+}
+
+.architecture-explorer__project.is-active {
+  box-shadow: inset 0 -2px 0 var(--arch-cyan);
+  color: #f2ffff !important;
+}
+
+.architecture-explorer__project-number {
+  color: var(--arch-muted);
+  font-family: var(--font-ibm-plex-mono, monospace);
+  font-size: 9px;
+}
+
+.architecture-explorer__project > span:nth-child(2) {
+  overflow-wrap: anywhere;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.architecture-explorer__project-arrow {
+  margin-left: auto;
+  color: var(--arch-cyan);
+}
+
+.architecture-explorer__project-intro {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 22px;
+  margin-bottom: 20px;
+}
+
+.architecture-explorer__project-intro h2 {
+  margin: 7px 0 0;
+  font-family: var(--font-space-grotesk, sans-serif);
+  font-size: clamp(24px, 3vw, 33px);
+  font-weight: 600;
+  letter-spacing: -0.04em;
+}
+
+.architecture-explorer__run {
+  flex-shrink: 0;
+}
+
+.architecture-explorer__run:disabled {
+  cursor: wait;
+  opacity: 0.7;
+}
+
+.architecture-explorer__workspace {
+  display: grid;
+  grid-template-columns: minmax(0, 1.55fr) minmax(240px, 0.8fr);
+  align-items: start;
+  gap: 14px;
+}
+
+.architecture-explorer__diagram,
+.architecture-explorer__details {
+  min-width: 0;
+  border: 1px solid var(--arch-border);
+  border-radius: 4px;
+  background: var(--arch-surface);
+}
+
+.architecture-explorer__diagram {
+  padding: clamp(14px, 2vw, 22px);
+  background-image:
+    linear-gradient(rgba(103, 163, 177, 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(103, 163, 177, 0.045) 1px, transparent 1px);
+  background-size: 25px 25px;
+}
+
+.architecture-explorer__details {
+  padding: clamp(14px, 2vw, 22px);
+}
+
+.architecture-explorer__section-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding-bottom: 17px;
+  border-bottom: 1px solid var(--arch-border);
+}
+
+.architecture-explorer__section-heading h3 {
+  margin: 5px 0 0;
+  font-family: var(--font-space-grotesk, sans-serif);
+  font-size: 17px;
+  font-weight: 500;
+}
+
+.architecture-explorer__count,
+.architecture-explorer__inspect-icon {
+  color: var(--arch-muted);
+  font-family: var(--font-ibm-plex-mono, monospace);
+  font-size: 9px;
+}
+
+.architecture-explorer__inspect-icon {
+  display: grid;
+  width: 30px;
+  height: 30px;
+  place-items: center;
+  border: 1px solid var(--arch-border);
+  color: var(--arch-cyan);
+  font-size: 15px;
+}
+
+.architecture-explorer__filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 15px 0;
+}
+
+.architecture-explorer__filter {
+  padding: 7px 9px;
+  border: 1px solid var(--arch-border);
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.015);
+  color: var(--arch-muted) !important;
+  cursor: pointer;
+  font-family: var(--font-ibm-plex-mono, monospace) !important;
+  font-size: 9px !important;
+  transition: 150ms ease;
+}
+
+.architecture-explorer__filter:hover,
+.architecture-explorer__filter.is-active {
+  border-color: rgba(87, 246, 233, 0.55);
+  background: rgba(87, 246, 233, 0.08);
+  color: var(--arch-cyan) !important;
+}
+
+.architecture-explorer__node-grid {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  padding: 4px 0 12px;
+}
+
+.architecture-explorer__node-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.architecture-explorer__node {
+  display: flex;
+  width: min(100%, 460px);
+  min-height: 115px;
+  flex-direction: column;
+  gap: 9px;
+  padding: 14px 16px;
+  border: 1px solid rgba(128, 163, 178, 0.22);
+  border-radius: 3px;
+  background: rgba(8, 16, 24, 0.94);
+  color: #e6f0f5 !important;
+  cursor: pointer;
+  text-align: left;
+  transition:
+    border-color 200ms ease,
+    background 200ms ease,
+    box-shadow 200ms ease,
+    transform 200ms ease;
+}
+
+.architecture-explorer__node:hover {
+  transform: translateY(-2px);
+  border-color: rgba(87, 246, 233, 0.4);
+}
+
+.architecture-explorer__node.is-selected,
+.architecture-explorer__node.is-flow-active {
+  border-color: var(--arch-cyan);
+  background: rgba(17, 50, 57, 0.58);
+  box-shadow: 0 0 20px rgba(87, 246, 233, 0.075);
+}
+
+.architecture-explorer__node.is-flow-active {
+  animation: arch-flow-highlight 850ms ease-in-out infinite alternate;
+}
+
+@keyframes arch-flow-highlight {
+  from {
+    box-shadow: 0 0 4px rgba(87, 246, 233, 0.08);
+  }
+  to {
+    box-shadow: 0 0 24px rgba(87, 246, 233, 0.22);
+  }
+}
+
+.architecture-explorer__node-top,
+.architecture-explorer__node-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  color: var(--arch-muted);
+  font-family: var(--font-ibm-plex-mono, monospace);
+  font-size: 9px;
+  letter-spacing: 0.05em;
+}
+
+.architecture-explorer__node-dot {
+  width: 7px;
+  height: 7px;
+  flex: 0 0 7px;
+  border-radius: 50%;
+  background: var(--arch-blue);
+}
+
+.architecture-explorer__node-dot.layer-frontend {
+  background: var(--arch-cyan);
+}
+
+.architecture-explorer__node-dot.layer-api {
+  background: #9b9bff;
+}
+
+.architecture-explorer__node-dot.layer-backend {
+  background: #69aaff;
+}
+
+.architecture-explorer__node-dot.layer-database {
+  background: #e7bd72;
+}
+
+.architecture-explorer__node-dot.layer-infrastructure {
+  background: #d38dff;
+}
+
+.architecture-explorer__node-title {
+  color: #f0f7fb;
+  font-family: var(--font-space-grotesk, sans-serif);
+  font-size: 17px;
+  font-weight: 600;
+}
+
+.architecture-explorer__node-tech {
+  color: #a7bac6;
+  font-size: 11px;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+
+.architecture-explorer__node-bottom {
+  margin-top: auto;
+  color: var(--arch-cyan);
+}
+
+.architecture-explorer__connector {
+  display: grid;
+  height: 24px;
+  place-items: center;
+  color: rgba(87, 246, 233, 0.65);
+  font-size: 16px;
+}
+
+.architecture-explorer__connection-label {
+  display: flex;
+  min-height: 25px;
+  align-items: center;
+  justify-content: center;
+  color: #849ba7;
+  font-family: var(--font-ibm-plex-mono, monospace);
+  font-size: 9px;
+  letter-spacing: 0.035em;
+  text-align: center;
+}
+
+.architecture-explorer__empty {
+  padding: 25px 12px;
+  color: var(--arch-muted);
+  font-size: 12px;
+  text-align: center;
+}
+
+.architecture-explorer__legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  padding-top: 13px;
+  border-top: 1px solid var(--arch-border);
+  color: var(--arch-muted);
+  font-size: 10px;
+}
+
+.architecture-explorer__legend > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.architecture-explorer__legend-dot {
+  width: 7px;
+  height: 7px;
+  border: 1px solid var(--arch-cyan);
+  border-radius: 50%;
+}
+
+.architecture-explorer__legend-dot.is-flow {
+  background: var(--arch-cyan);
+  box-shadow: 0 0 9px rgba(87, 246, 233, 0.6);
+}
+
+.architecture-explorer__flow-status {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  min-height: 40px;
+  margin-top: 14px;
+  padding: 10px;
+  border: 1px solid var(--arch-border);
+  background: rgba(0, 0, 0, 0.18);
+  color: #9cb2be;
+  font-family: var(--font-ibm-plex-mono, monospace);
+  font-size: 9px;
+  line-height: 1.7;
+  overflow-wrap: anywhere;
+}
+
+.architecture-explorer__flow-indicator {
+  width: 6px;
+  height: 6px;
+  flex-basis: 6px;
+}
+
+.architecture-explorer__node-details {
+  padding-top: 19px;
+}
+
+.architecture-explorer__detail-index,
+.architecture-explorer__detail-label {
+  display: block;
+  color: var(--arch-muted);
+  font-family: var(--font-ibm-plex-mono, monospace);
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  line-height: 1.8;
+  overflow-wrap: anywhere;
+}
+
+.architecture-explorer__node-details h4 {
+  margin: 10px 0;
+  color: #f1f9fc;
+  font-family: var(--font-space-grotesk, sans-serif);
+  font-size: 25px;
+  font-weight: 600;
+  letter-spacing: -0.035em;
+  overflow-wrap: anywhere;
+}
+
+.architecture-explorer__detail-layer {
+  display: inline-flex;
+  padding: 5px 8px;
+  border: 1px solid rgba(87, 246, 233, 0.27);
+  background: rgba(87, 246, 233, 0.055);
+  color: var(--arch-cyan);
+  font-family: var(--font-ibm-plex-mono, monospace);
+  font-size: 9px;
+}
+
+.architecture-explorer__detail-block {
+  margin-top: 23px;
+}
+
+.architecture-explorer__detail-block p {
+  margin: 8px 0 0;
+  color: #afbec8;
+  font-size: 12px;
+  line-height: 1.8;
+  overflow-wrap: anywhere;
+}
+
+.architecture-explorer__detail-block ul {
+  display: grid;
+  gap: 10px;
+  margin: 10px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.architecture-explorer__detail-block li {
+  position: relative;
+  padding-left: 15px;
+  color: #afbec8;
+  font-size: 11px;
+  line-height: 1.7;
+  overflow-wrap: anywhere;
+}
+
+.architecture-explorer__detail-block li::before {
+  position: absolute;
+  top: 0;
+  left: 0;
+  color: var(--arch-cyan);
+  content: "›";
+}
+
+.architecture-explorer__verification {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin-top: 24px;
+  padding: 11px;
+  border: 1px solid var(--arch-border);
+  color: var(--arch-muted);
+  font-size: 10px;
+  line-height: 1.7;
+}
+
+.architecture-explorer__verification.is-verified {
+  border-color: rgba(87, 246, 233, 0.18);
+  color: #a8dcd6;
+}
+
+.architecture-explorer__verification.is-unverified {
+  border-color: rgba(231, 189, 114, 0.25);
+  color: #d6b987;
+}
+
+.architecture-explorer__detail-footer {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 7px;
+  margin-top: 24px;
+  padding-top: 17px;
+  border-top: 1px solid var(--arch-border);
+}
+
+.architecture-explorer__detail-footer span {
+  color: var(--arch-muted);
+  font-family: var(--font-ibm-plex-mono, monospace);
+  font-size: 9px;
+}
+
+.architecture-explorer__detail-footer strong {
+  margin-bottom: 7px;
+  color: #d6e5ec;
+  font-size: 11px;
+  font-weight: 500;
+  overflow-wrap: anywhere;
+}
+
+.architecture-explorer__muted {
+  color: var(--arch-muted);
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+.architecture-explorer__footer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 22px;
+  padding-top: 15px;
+  border-top: 1px solid var(--arch-border);
+  color: #728792;
+  font-family: var(--font-ibm-plex-mono, monospace);
+  font-size: 9px;
+  letter-spacing: 0.05em;
+}
+
+@media (max-width: 1000px) {
+  .architecture-explorer__workspace {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .architecture-explorer__details {
+    min-width: 0;
+  }
+}
+
+@media (max-width: 680px) {
+  .architecture-explorer {
+    padding: 15px;
+  }
+
+  .architecture-explorer__heading-row,
+  .architecture-explorer__project-intro {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .architecture-explorer__close,
+  .architecture-explorer__run {
+    align-self: flex-start;
+  }
+
+  .architecture-explorer__projects {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .architecture-explorer__project {
+    padding: 10px;
+  }
+
+  .architecture-explorer__project-number {
+    display: none;
+  }
+
+  .architecture-explorer__project > span:nth-child(2) {
+    font-size: 10px;
+  }
+
+  .architecture-explorer__footer {
+    flex-direction: column;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .architecture-explorer *,
+  .architecture-explorer *::before,
+  .architecture-explorer *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}
