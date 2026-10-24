@@ -7,6 +7,7 @@ import ProjectCaseStudy from "./ProjectCaseStudy";
 import ProjectDemo from "./ProjectDemo";
 import SkillsMatrix from "./SkillsMatrix";
 import ArchitectureExplorer from "./ArchitectureExplorer";
+import RecruiterDashboard from "./RecruiterDashboard";
 
 export default function TerminalView({ shell }: { shell: TerminalShellState }) {
   const {
@@ -16,6 +17,7 @@ export default function TerminalView({ shell }: { shell: TerminalShellState }) {
     activeCaseStudy, setActiveCaseStudy,
     showSkillsMatrix, setShowSkillsMatrix, skillsCategory,
     showArchitecture, setShowArchitecture, architectureProject,
+    showRecruiterDashboard, setShowRecruiterDashboard,
     inputRef, outputRef, execute, saveEditor, handleKeyDown,
   } = shell;
 
@@ -184,6 +186,16 @@ export default function TerminalView({ shell }: { shell: TerminalShellState }) {
           key={architectureProject}
           initialProject={architectureProject}
           onClose={() => setShowArchitecture(false)}
+        />
+      )}
+
+      {showRecruiterDashboard && (
+        <RecruiterDashboard
+          onRunCommand={(command) => {
+            setShowRecruiterDashboard(false);
+            execute(command);
+          }}
+          onClose={() => setShowRecruiterDashboard(false)}
         />
       )}
     </main>
