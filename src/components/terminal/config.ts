@@ -41,6 +41,7 @@ PORTFOLIO
   skills backend       Filter backend technologies
   skills database      Filter database technologies
   skills devops        Filter infrastructure technologies
+  architecture [project]   Explore a project's system architecture
   open github          Open current project's repository
   open live            Open current project's live demo
   resume               Open resume, if configured
@@ -57,7 +58,7 @@ export const COMMANDS = [
   "find", "tree", "file", "stat", "whoami", "hostname",
   "uname", "neofetch", "date", "echo", "history", "clear", "help",
   "exit", "resume", "contact", "dashboard", "terminal", "open",
-  "projects", "recruiter", "skills",
+  "projects", "recruiter", "skills", "architecture",
 ];
 
 export type ProjectDetails = {
