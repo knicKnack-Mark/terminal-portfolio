@@ -8,6 +8,7 @@ import ProjectDemo from "./ProjectDemo";
 import SkillsMatrix from "./SkillsMatrix";
 import ArchitectureExplorer from "./ArchitectureExplorer";
 import RecruiterDashboard from "./RecruiterDashboard";
+import CommandPalette from "./CommandPalette";
 
 export default function TerminalView({ shell }: { shell: TerminalShellState }) {
   const {
@@ -198,6 +199,8 @@ export default function TerminalView({ shell }: { shell: TerminalShellState }) {
           onClose={() => setShowRecruiterDashboard(false)}
         />
       )}
+
+      <CommandPalette onRunCommand={execute} />
     </main>
   );
 }
