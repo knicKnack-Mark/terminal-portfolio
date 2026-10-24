@@ -35,6 +35,8 @@ export function useTerminalShell() {
   const [booted, setBooted] = useState(false);
   const [bootLines, setBootLines] = useState<string[]>([]);
   const [showDashboard, setShowDashboard] = useState(false);
+  const [showRecruiterDashboard, setShowRecruiterDashboard] =
+    useState(false);
   const [activeCaseStudy, setActiveCaseStudy] =
     useState<ProjectSlug | "">("");
   const [showSkillsMatrix, setShowSkillsMatrix] = useState(false);
@@ -238,42 +240,9 @@ export function useTerminalShell() {
 
         case "recruiter":
         case "./recruiter.sh": {
-          run(
-            [
-              "NEIL BERTIZ — RECRUITER BRIEF",
-              "════════════════════════════════════════════",
-              "PROFILE",
-              "Developer and IT professional working across web applications,",
-              "REST APIs, database administration, and Linux/system administration.",
-              "",
-              "EXPERIENCE",
-              "• Spondise LLC — Full-Stack Web Developer",
-              "  Dec 2024 – Jan 2025 | Nuxt.js, Bootstrap, Laravel, CRUD APIs",
-              "• Database & System Administration",
-              "  Database operations, production troubleshooting, Linux servers,",
-              "  monitoring, deployment, and web development.",
-              "",
-              "TECHNICAL SKILLS",
-              "• Frontend: JavaScript, TypeScript, React/Next.js, Vue/Nuxt, CSS",
-              "• Backend: Python, PHP/Laravel, REST APIs, CRUD",
-              "• Data & Infrastructure: MySQL/MariaDB, SQL optimization, Linux",
-              "  administration, deployment, monitoring, and reporting",
-              "",
-              "FEATURED PROJECTS",
-              "• GEO//NEXUS — immersive geospatial/surveying website",
-              "• BRMS — banking management frontend and REST integration",
-              "• Invoice System Generator — invoicing/expense management",
-              "• Vet Care System — veterinary management application",
-              "",
-              "NEXT STEPS",
-              "• Type 'projects' to explore project showcases.",
-              "• Type 'contact' for contact details.",
-              "• Type 'resume' to open public/resume.pdf when configured.",
-              "",
-              "Note: Update contact details, education, project stacks, and URLs",
-              "before publishing this portfolio.",
-            ].join("\n"),
-          );
+          setShowDashboard(false);
+          setActivePreview("");
+          setShowRecruiterDashboard(true);
           break;
         }
 
@@ -661,6 +630,8 @@ export function useTerminalShell() {
     bootLines, 
     showDashboard, 
     setShowDashboard,
+    showRecruiterDashboard,
+    setShowRecruiterDashboard,
     activeCaseStudy, 
     setActiveCaseStudy,
     showSkillsMatrix, 
