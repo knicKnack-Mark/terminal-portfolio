@@ -15,7 +15,12 @@ import {
   normalizeSkillCategory,
   type SkillCategory,
 } from "./skillsData";
+import {
+  isArchitectureProjectSlug,
+  type ArchitectureProjectSlug,
+} from "./architectureData";
 import type { FsNode, HistoryEntry } from "./types";
+
 
 export function useTerminalShell() {
   const [cwd, setCwd] = useState(HOME);
@@ -35,6 +40,9 @@ export function useTerminalShell() {
   const [showSkillsMatrix, setShowSkillsMatrix] = useState(false);
   const [skillsCategory, setSkillsCategory] =
     useState<SkillCategory>("all");
+  const [showArchitecture, setShowArchitecture] = useState(false);
+  const [architectureProject, setArchitectureProject] =
+  useState<ArchitectureProjectSlug>("geonexus");
   const inputRef = useRef<HTMLInputElement>(null);
   const outputRef = useRef<HTMLDivElement>(null);
   const nextId = useRef(1);
@@ -514,6 +522,27 @@ export function useTerminalShell() {
           run("neil is not in the sudoers file. This incident will be reported. (Just kidding.)");
           break;
 
+        case "architecture": {
+          const requestedProject = params[0]?.toLowerCase();
+
+          if (requestedProject && !isArchitectureProjectSlug(requestedProject)) {
+            run(
+              `Unknown project: ${requestedProject}\nAvailable projects: geonexus, brms, invoice-system, vet-care-system`,
+            );
+            break;
+          }
+
+          setArchitectureProject(
+            requestedProject && isArchitectureProjectSlug(requestedProject)
+              ? requestedProject
+              : "geonexus",
+          );
+
+          setShowDashboard(false);
+          setShowArchitecture(true);
+          setActivePreview("");
+          break;
+        }
         case "rm":
         case "mkdir":
         case "touch":
@@ -615,13 +644,38 @@ export function useTerminalShell() {
 
 
   return {
-    cwd, input, setInput, entries, history, historyIndex, activePreview,
-    setActivePreview, editorPath, setEditorPath, editorValue, setEditorValue,
-    message, booted, bootLines, showDashboard, setShowDashboard,
-    activeCaseStudy, setActiveCaseStudy,
-    showSkillsMatrix, setShowSkillsMatrix,
-    skillsCategory, setSkillsCategory,
-    inputRef, outputRef, execute, saveEditor, handleKeyDown,
+    cwd, 
+    input, 
+    setInput, 
+    entries, 
+    history, 
+    historyIndex, 
+    activePreview,
+    setActivePreview, 
+    editorPath, 
+    setEditorPath, 
+    editorValue, 
+    setEditorValue,
+    message, 
+    booted, 
+    bootLines, 
+    showDashboard, 
+    setShowDashboard,
+    activeCaseStudy, 
+    setActiveCaseStudy,
+    showSkillsMatrix, 
+    setShowSkillsMatrix,
+    skillsCategory, 
+    setSkillsCategory,
+    inputRef, 
+    outputRef, 
+    execute, 
+    saveEditor, 
+    handleKeyDown,
+    showArchitecture,
+    setShowArchitecture,
+    architectureProject,
+    setArchitectureProject,
   };
 }
 
