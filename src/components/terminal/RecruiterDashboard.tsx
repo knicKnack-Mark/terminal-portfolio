@@ -310,14 +310,13 @@ export default function RecruiterDashboard({
           >
             GET IN TOUCH ↗
           </button>
-          <button
-            type="button"
+          <a
+            href="/resume.pdf"
+            download="Mark-Neil-Bertiz-Resume.pdf"
             className="recruiter-dashboard__resume-button"
-            disabled
-            title="Resume download will be connected later"
           >
-            RESUME / COMING SOON
-          </button>
+            DOWNLOAD RESUME ↗
+          </a>
         </div>
       </section>
 
