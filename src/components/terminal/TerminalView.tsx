@@ -6,6 +6,7 @@ import Dashboard from "./Dashboard";
 import ProjectCaseStudy from "./ProjectCaseStudy";
 import ProjectDemo from "./ProjectDemo";
 import SkillsMatrix from "./SkillsMatrix";
+import ArchitectureExplorer from "./ArchitectureExplorer";
 
 export default function TerminalView({ shell }: { shell: TerminalShellState }) {
   const {
@@ -14,6 +15,7 @@ export default function TerminalView({ shell }: { shell: TerminalShellState }) {
     booted, bootLines, showDashboard, setShowDashboard,
     activeCaseStudy, setActiveCaseStudy,
     showSkillsMatrix, setShowSkillsMatrix, skillsCategory,
+    showArchitecture, setShowArchitecture, architectureProject,
     inputRef, outputRef, execute, saveEditor, handleKeyDown,
   } = shell;
 
@@ -176,6 +178,14 @@ export default function TerminalView({ shell }: { shell: TerminalShellState }) {
       <p className="terminal-outside-note">
         A portfolio built like a system. Explore it like a developer.
       </p>
+
+      {showArchitecture && (
+        <ArchitectureExplorer
+          key={architectureProject}
+          initialProject={architectureProject}
+          onClose={() => setShowArchitecture(false)}
+        />
+      )}
     </main>
   );
 }
