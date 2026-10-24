@@ -223,9 +223,9 @@ CURRENT  | Database & System Administration
       }),
       "contact.txt": file(`CONTACT
 
-Email:    Replace with your professional email
-GitHub:   Replace with your GitHub profile URL
-LinkedIn: Replace with your LinkedIn profile URL
+Email:   markneilbertiz21@gmail.com
+GitHub:   https://github.com/knicKnack-Mark
+LinkedIn: https://www.linkedin.com/in/mark-neil-bertiz-b90b9230a/
 
 For inquiries, use the contact information above.
 `),
