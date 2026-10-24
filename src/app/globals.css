@@ -3761,9 +3761,15 @@ button {
   gap: 9px;
 }
 
-.recruiter-dashboard__resume-button:disabled {
-  cursor: not-allowed;
-  opacity: 0.55;
+.recruiter-dashboard__resume-button {
+  display: inline-block;
+  text-align: center;
+  text-decoration: none;
+}
+
+.recruiter-dashboard__resume-button:hover {
+  border-color: var(--recruiter-cyan);
+  color: var(--recruiter-cyan);
 }
 
 .recruiter-dashboard__footer {
